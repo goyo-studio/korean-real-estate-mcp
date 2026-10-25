@@ -2,6 +2,8 @@
 
 <!-- mcp-name: io.github.goyo-studio/korean-real-estate-mcp -->
 
+[![Korean Real Estate Transactions MCP on Glama](https://glama.ai/mcp/servers/goyo-studio/korean-real-estate-mcp/badges/score.svg)](https://glama.ai/mcp/servers/goyo-studio/korean-real-estate-mcp)
+
 [한국어](#한국어) · [English](#english)
 
 Remote MCP server: `https://realestate-api.goyostudio.io/mcp` (Streamable HTTP, no authentication)
