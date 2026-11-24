@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> 2026-12-02에 서비스를 종료해요
+>
+> This service will shut down on 2026-12-02.
+
 # Korean Real Estate Transactions MCP
 
 <!-- mcp-name: io.github.goyo-studio/korean-real-estate-mcp -->
