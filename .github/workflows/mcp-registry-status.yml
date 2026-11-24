@@ -1,0 +1,46 @@
+name: Update MCP Registry Status
+
+on:
+  workflow_dispatch:
+    inputs:
+      status:
+        description: Registry lifecycle status
+        required: true
+        type: choice
+        options:
+          - deprecated
+          - deleted
+          - active
+        default: deprecated
+      message:
+        description: Optional registry statusMessage (leave empty when status is active)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # GitHub OIDC login to the MCP Registry (no secrets)
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher --version || true
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+      - name: Update registry status
+        env:
+          MCP_STATUS: ${{ inputs.status }}
+          MCP_MESSAGE: ${{ inputs.message }}
+        run: |
+          if [ -n "$MCP_MESSAGE" ]; then
+            ./mcp-publisher status --status "$MCP_STATUS" --message "$MCP_MESSAGE" io.github.goyo-studio/korean-real-estate-mcp 1.0.0
+          else
+            ./mcp-publisher status --status "$MCP_STATUS" io.github.goyo-studio/korean-real-estate-mcp 1.0.0
+          fi
